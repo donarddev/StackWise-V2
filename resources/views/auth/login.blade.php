@@ -1,48 +1,81 @@
 <x-guest-layout>
-    <!-- Session Status -->
-    <x-auth-session-status class="mb-4" :status="session('status')" />
+    <header class="mb-8 text-center">
+        <h1 class="text-2xl font-semibold tracking-tight text-white sm:text-[1.65rem]">
+            {{ __('Welcome back') }}
+        </h1>
+        <p class="mt-2 text-sm leading-6 text-slate-400">
+            {{ __('Continue your StackWise project decision workspace.') }}
+        </p>
+    </header>
 
-    <form x-data="{ showPassword: false }" method="POST" action="{{ route('login') }}">
+    <x-auth-session-status class="mb-4" variant="guest" :status="session('status')" />
+
+    <form method="POST" action="{{ route('login') }}" class="space-y-5">
         @csrf
-        <div class="mb-6 text-center">
-            <h2 class="text-2xl font-bold tracking-tight">Welcome back</h2>
-            <p class="text-sm text-white/70">Log in to continue to {{ config('app.name') }}</p>
+
+        <div>
+            <x-input-label for="email" variant="guest" :value="__('Email')" />
+            <x-text-input
+                id="email"
+                class="mt-2 block w-full"
+                variant="guest"
+                type="email"
+                name="email"
+                :value="old('email')"
+                required
+                autofocus
+                autocomplete="username"
+            />
+            <x-input-error class="mt-2" variant="guest" :messages="$errors->get('email')" />
         </div>
 
-        <div class="space-y-4">
-            <div>
-                <x-input-label for="email" :value="__('Email')" />
-                <x-text-input id="email" class="mt-1" type="email" name="email" :value="old('email')" required autofocus autocomplete="username" />
-                <x-input-error :messages="$errors->get('email')" class="mt-2" />
-            </div>
-
-            <div>
-                <x-input-label for="password" :value="__('Password')" />
-                <div class="relative mt-1">
-                    <input id="password" name="password" required autocomplete="current-password" :type="showPassword ? 'text' : 'password'" class="block w-full px-4 py-3 bg-white/5 placeholder-gray-300 text-white rounded-xl border border-white/10 focus:outline-none focus:ring-2 focus:ring-indigo-400 transition duration-150">
-                    <button type="button" @click="showPassword = !showPassword" class="absolute right-2 top-1/2 -translate-y-1/2 text-sm text-white/60 hover:text-white">
-                        <span x-text="showPassword ? 'Hide' : 'Show'"></span>
-                    </button>
-                </div>
-                <x-input-error :messages="$errors->get('password')" class="mt-2" />
-            </div>
-
-            <div class="flex items-center justify-between">
-                <label for="remember_me" class="inline-flex items-center">
-                    <input id="remember_me" type="checkbox" class="rounded border-white/20 text-indigo-600 shadow-sm focus:ring-indigo-500" name="remember">
-                    <span class="ms-2 text-sm text-white/80">{{ __('Remember me') }}</span>
-                </label>
-
-                @if (Route::has('password.request'))
-                    <a class="text-sm text-white/70 hover:underline" href="{{ route('password.request') }}">{{ __('Forgot your password?') }}</a>
-                @endif
-            </div>
-
-            <div class="flex items-center justify-end">
-                <x-primary-button class="ms-3">
-                    {{ __('Log in') }}
-                </x-primary-button>
-            </div>
+        <div>
+            <x-input-label for="password" variant="guest" :value="__('Password')" />
+            <x-text-input
+                id="password"
+                class="mt-2 block w-full"
+                variant="guest"
+                type="password"
+                name="password"
+                required
+                autocomplete="current-password"
+            />
+            <x-input-error class="mt-2" variant="guest" :messages="$errors->get('password')" />
         </div>
+
+        <div class="flex flex-wrap items-center justify-between gap-3">
+            <label for="remember_me" class="inline-flex cursor-pointer items-center">
+                <input
+                    id="remember_me"
+                    type="checkbox"
+                    class="rounded border-white/20 bg-slate-950/50 text-emerald-400 shadow-sm focus:ring-2 focus:ring-emerald-400/40"
+                    name="remember"
+                >
+                <span class="ms-2 text-sm text-slate-400">{{ __('Remember me') }}</span>
+            </label>
+
+            @if (Route::has('password.request'))
+                <a
+                    class="text-sm text-slate-400 underline-offset-4 transition hover:text-emerald-300 hover:underline focus:outline-none focus:ring-2 focus:ring-emerald-400/40 focus:ring-offset-2 focus:ring-offset-slate-900 rounded"
+                    href="{{ route('password.request') }}"
+                >
+                    {{ __('Forgot your password?') }}
+                </a>
+            @endif
+        </div>
+
+        <x-primary-button variant="guest" class="w-full sm:w-auto">
+            {{ __('Log in') }}
+        </x-primary-button>
     </form>
+
+    <p class="mt-8 text-center text-sm text-slate-400">
+        {{ __('New to StackWise?') }}
+        <a
+            href="{{ route('register') }}"
+            class="font-medium text-emerald-300 underline-offset-4 transition hover:text-emerald-200 hover:underline"
+        >
+            {{ __('Create an account') }}
+        </a>
+    </p>
 </x-guest-layout>

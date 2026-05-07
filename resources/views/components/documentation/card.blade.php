@@ -13,6 +13,8 @@
     $keyDrawback = $drawbacks[0] ?? null;
     $labels = $item['best_fit_labels'] ?? [];
     $difficulty = $item['difficulty'] ?? '—';
+    $referenceSources = $item['reference_sources'] ?? [];
+    $shortDescription = $item['short_description'] ?? $item['description'] ?? '';
 
     $categoryLabel = match ($kind) {
         'language' => 'Language',
@@ -49,7 +51,7 @@
     @endif
 
     <p class="mt-3 line-clamp-3 text-sm leading-6 text-slate-300">
-        {{ $item['description'] }}
+        {{ $shortDescription }}
     </p>
 
     <dl class="mt-4 space-y-3 text-sm">
@@ -86,6 +88,13 @@
             <dd class="mt-1 text-slate-200">{{ $item['avoid_when'] ?? '—' }}</dd>
         </div>
     </dl>
+
+    @if ($referenceSources !== [])
+        <p class="mt-4 text-xs text-slate-500">
+            References:
+            <span class="text-slate-400">{{ implode(', ', $referenceSources) }}</span>
+        </p>
+    @endif
 
     @if (! empty($item['recommendation_note']))
         <p class="mt-4 rounded-xl border border-emerald-400/20 bg-emerald-400/5 px-3 py-2 text-xs leading-5 text-emerald-100/95">

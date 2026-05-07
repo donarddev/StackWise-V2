@@ -7,9 +7,10 @@
         <div class="grid gap-8 lg:grid-cols-[minmax(0,1.5fr)_minmax(20rem,0.85fr)] lg:items-start">
             <div class="space-y-8">
                 <x-ui.page-header
-                :badge="$pageHeader['badge']"
-                :title="$pageHeader['title']"
-                :description="$pageHeader['description']"
+                    :badge="$pageHeader['badge']"
+                    :title="$pageHeader['title']"
+                    :description="$pageHeader['description']"
+                />
 
                 @if ($errors->any())
                     <x-ui.alert type="error" :message="$errorNotice" />
@@ -50,6 +51,13 @@
                                                         :name="$field['name']"
                                                         :placeholder="$field['placeholder'] ?? null"
                                                         :options="$field['options']"
+                                                    />
+                                                @elseif ($field['type'] === 'multi_select')
+                                                    <x-ui.form-multi-select
+                                                        :name="$field['name']"
+                                                        :placeholder="$field['placeholder'] ?? null"
+                                                        :options="$field['options']"
+                                                        class="min-h-[11rem]"
                                                     />
                                                 @elseif ($field['type'] === 'textarea')
                                                     <x-ui.form-textarea

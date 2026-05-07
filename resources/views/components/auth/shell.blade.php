@@ -14,7 +14,7 @@
 
             <div class="flex items-start justify-between gap-6">
                 <div class="flex items-center gap-3">
-                    <x-application-logo class="h-11 w-auto text-emerald-300" />
+                    <x-application-logo class="h-11 w-11 shrink-0" />
                     <div>
                         <p class="text-sm font-semibold tracking-[0.2em] text-emerald-300/90">STACKWISE AI</p>
                         <p class="text-xs text-slate-400">Decision support for student projects</p>
@@ -55,7 +55,7 @@
             <div class="w-full max-w-lg rounded-[2rem] border border-white/10 bg-slate-900/85 p-6 shadow-2xl shadow-slate-950/50 backdrop-blur-xl sm:p-8">
                 <div class="mb-6 flex items-start justify-between gap-4 lg:hidden">
                     <div class="flex items-center gap-3">
-                        <x-application-logo class="h-10 w-auto text-emerald-300" />
+                        <x-application-logo class="h-10 w-10 shrink-0" />
                         <div>
                             <p class="text-xs font-semibold tracking-[0.2em] text-emerald-300/90">STACKWISE AI</p>
                             <p class="text-xs text-slate-400">Decision support for student projects</p>

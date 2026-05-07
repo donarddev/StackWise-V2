@@ -15,6 +15,43 @@
                 <p class="text-xs uppercase tracking-wider text-emerald-200">{{ $step['phase'] }}</p>
                 <p class="mt-2 text-base font-semibold text-white">{{ $step['task'] }}</p>
                 <p class="mt-2 text-sm text-slate-300">{{ $step['description'] }}</p>
+
+                @if (! empty($step['estimated_focus']))
+                    <p class="mt-3 text-xs font-semibold uppercase tracking-wider text-slate-400">
+                        Estimated focus: {{ $step['estimated_focus'] }}%
+                    </p>
+                @endif
+
+                @if (! empty($step['objectives']))
+                    <div class="mt-4 space-y-3 text-sm text-slate-300">
+                        <div>
+                            <p class="text-xs font-semibold uppercase tracking-wider text-slate-200">Objectives</p>
+                            <ul class="mt-2 list-disc space-y-1 pl-5">
+                                @foreach ($step['objectives'] as $item)
+                                    <li>{{ $item }}</li>
+                                @endforeach
+                            </ul>
+                        </div>
+
+                        <div>
+                            <p class="text-xs font-semibold uppercase tracking-wider text-slate-200">Deliverables</p>
+                            <ul class="mt-2 list-disc space-y-1 pl-5">
+                                @foreach (($step['deliverables'] ?? []) as $item)
+                                    <li>{{ $item }}</li>
+                                @endforeach
+                            </ul>
+                        </div>
+
+                        <div>
+                            <p class="text-xs font-semibold uppercase tracking-wider text-slate-200">Priorities</p>
+                            <ul class="mt-2 list-disc space-y-1 pl-5">
+                                @foreach (($step['priorities'] ?? []) as $item)
+                                    <li>{{ $item }}</li>
+                                @endforeach
+                            </ul>
+                        </div>
+                    </div>
+                @endif
             </div>
         @empty
             <div class="rounded-2xl border border-white/10 bg-slate-900/70 p-4 text-sm text-slate-400">No roadmap steps were generated for this recommendation.</div>

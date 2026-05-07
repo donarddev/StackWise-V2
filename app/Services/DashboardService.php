@@ -4,6 +4,7 @@ namespace App\Services;
 
 use App\Models\Feedback;
 use App\Models\Recommendation;
+use Illuminate\Database\Eloquent\Builder;
 
 class DashboardService
 {
@@ -17,8 +18,16 @@ class DashboardService
 
     private function getStatistics(): array
     {
-        $totalRecommendations = Recommendation::query()->count();
-        $totalFeedback = Feedback::query()->count();
+        $recommendationsQuery = $this->scopeToCurrentUser(Recommendation::query());
+        $totalRecommendations = (clone $recommendationsQuery)->count();
+
+        $totalFeedback = Feedback::query()
+            ->when(auth()->id() !== null, function (Builder $query): void {
+                $query->whereHas('recommendation', function (Builder $recommendations): void {
+                    $this->scopeToCurrentUser($recommendations);
+                });
+            })
+            ->count();
 
         return [
             [
@@ -29,7 +38,7 @@ class DashboardService
             [
                 'label' => 'Average Confidence',
                 'value' => $totalRecommendations > 0
-                    ? round((float) Recommendation::query()->avg('confidence_score')) . '%'
+                    ? round((float) (clone $recommendationsQuery)->avg('confidence_score')).'%'
                     : '0%',
                 'helper' => 'Average score from all recommendations',
             ],
@@ -56,7 +65,13 @@ class DashboardService
             [
                 'label' => 'Average Rating',
                 'value' => $totalFeedback > 0
-                    ? number_format((float) Feedback::query()->avg('rating'), 1) . '/5'
+                    ? number_format((float) Feedback::query()
+                        ->when(auth()->id() !== null, function (Builder $query): void {
+                            $query->whereHas('recommendation', function (Builder $recommendations): void {
+                                $this->scopeToCurrentUser($recommendations);
+                            });
+                        })
+                        ->avg('rating'), 1).'/5'
                     : '0/5',
                 'helper' => 'Average user satisfaction rating',
             ],
@@ -65,7 +80,7 @@ class DashboardService
 
     private function getMostRecommendedValue(string $column): string
     {
-        $value = Recommendation::query()
+        $value = $this->scopeToCurrentUser(Recommendation::query())
             ->select($column)
             ->selectRaw('COUNT(*) as total')
             ->groupBy($column)
@@ -77,10 +92,20 @@ class DashboardService
 
     private function getRecentRecommendations(): array
     {
-        return Recommendation::query()
+        return $this->scopeToCurrentUser(Recommendation::query())
             ->latest()
             ->limit(5)
             ->get()
             ->all();
+    }
+
+    private function scopeToCurrentUser(Builder $query): Builder
+    {
+        $userId = auth()->id();
+        if ($userId === null) {
+            return $query->whereRaw('1 = 0');
+        }
+
+        return $query->where('user_id', $userId);
     }
 }

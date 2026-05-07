@@ -2,6 +2,7 @@
 
 namespace App\Http\Requests\Auth;
 
+use Illuminate\Auth\Events\Lockout;
 use Illuminate\Contracts\Validation\ValidationRule;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Support\Facades\Auth;
@@ -35,7 +36,7 @@ class LoginRequest extends FormRequest
     /**
      * Attempt to authenticate the request's credentials.
      *
-     * @throws \Illuminate\Validation\ValidationException
+     * @throws ValidationException
      */
     public function authenticate(): void
     {
@@ -53,15 +54,17 @@ class LoginRequest extends FormRequest
     }
 
     /**
-     * Ensure the login is not rate limited.
+     * Ensure the login request is not rate limited.
      *
-     * @return void
+     * @throws ValidationException
      */
-    protected function ensureIsNotRateLimited(): void
+    public function ensureIsNotRateLimited(): void
     {
         if (! RateLimiter::tooManyAttempts($this->throttleKey(), 5)) {
             return;
         }
+
+        event(new Lockout($this));
 
         $seconds = RateLimiter::availableIn($this->throttleKey());
 
@@ -76,8 +79,8 @@ class LoginRequest extends FormRequest
     /**
      * Get the rate limiting throttle key for the request.
      */
-    protected function throttleKey(): string
+    public function throttleKey(): string
     {
-        return Str::lower($this->input('email')).'|'.$this->ip();
+        return Str::transliterate(Str::lower($this->string('email')).'|'.$this->ip());
     }
 }

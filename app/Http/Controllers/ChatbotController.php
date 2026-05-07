@@ -21,6 +21,7 @@ class ChatbotController extends Controller
             'suggestedQuestions' => $this->chatbotService->getSuggestedQuestions(),
             'topicChips' => $this->chatbotService->getTopicChips(),
             'assistantCapabilities' => $this->chatbotService->getAssistantCapabilities(),
+            'aiEnabled' => $this->chatbotService->isAiEnabled(),
         ]);
     }
 

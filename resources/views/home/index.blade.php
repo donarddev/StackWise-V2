@@ -3,8 +3,8 @@
         <div class="absolute inset-0 -z-10 bg-[radial-gradient(circle_at_top_left,_rgba(16,185,129,0.18),_transparent_28%),radial-gradient(circle_at_top_right,_rgba(45,212,191,0.14),_transparent_24%),linear-gradient(180deg,_#020617_0%,_#081120_42%,_#020617_100%)]"></div>
         <div class="absolute left-1/2 top-0 -z-10 h-80 w-[44rem] -translate-x-1/2 rounded-full bg-emerald-400/10 blur-3xl"></div>
 
-        <section class="mx-auto max-w-7xl px-4 pb-16 pt-8 sm:px-6 lg:px-8 lg:pb-24 lg:pt-14">
-            <div class="grid items-center gap-10 lg:grid-cols-[1.05fr_0.95fr]">
+        <section class="mx-auto max-w-7xl px-4 pb-16 pt-5 sm:px-6 lg:px-8 lg:pb-24 lg:pt-8">
+            <div class="grid items-start gap-10 lg:grid-cols-[1.05fr_0.95fr]">
                 <div class="space-y-8">
                     <x-ui.badge tone="teal">{{ $hero['badge'] }}</x-ui.badge>
 
@@ -39,7 +39,7 @@
                     </div>
                 </div>
 
-                <div class="rounded-[2rem] border border-white/10 bg-slate-900/70 p-6 shadow-2xl shadow-slate-950/40 ring-1 ring-inset ring-white/5 backdrop-blur-xl sm:p-8">
+                <div class="rounded-[2rem] border border-white/10 bg-slate-900/70 p-6 shadow-2xl shadow-slate-950/40 ring-1 ring-inset ring-white/5 backdrop-blur-xl sm:p-8 lg:mt-0">
                     <div class="flex items-start justify-between gap-4">
                         <div>
                             <p class="text-sm font-medium uppercase tracking-[0.2em] text-slate-400">Intelligence Overview</p>

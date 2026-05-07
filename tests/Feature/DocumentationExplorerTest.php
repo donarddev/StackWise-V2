@@ -5,7 +5,10 @@ use function Pest\Laravel\get;
 test('documentation explorer loads', function () {
     get(route('documentation.index'))
         ->assertOk()
-        ->assertSee('Explore languages, frameworks, and SDLC models', false);
+        ->assertSee('Explore languages, frameworks, and SDLC models', false)
+        ->assertSee('>12<', false)
+        ->assertSee('>13<', false)
+        ->assertSee('>11<', false);
 });
 
 test('documentation explorer filters by search and category', function () {

@@ -4,17 +4,18 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\RecommendationHistoryFilterRequest;
 use App\Http\Requests\RecommendationRequest;
+use App\Models\Recommendation;
 use App\Services\RecommendationFormService;
 use App\Services\RecommendationService;
 use Illuminate\Contracts\View\View;
+use Illuminate\Http\RedirectResponse;
 
 class RecommendationController extends Controller
 {
     public function __construct(
         private readonly RecommendationFormService $recommendationFormService,
         private readonly RecommendationService $recommendationService,
-    ) {
-    }
+    ) {}
 
     public function index(): View
     {
@@ -27,16 +28,15 @@ class RecommendationController extends Controller
         return view('recommendation.create', $formData);
     }
 
-    public function generate(RecommendationRequest $request): View
+    public function generate(RecommendationRequest $request): RedirectResponse
     {
         $validated = $request->validated();
 
-        $result = $this->recommendationService->generateAndStoreRecommendation($validated);
+        $recommendation = $this->recommendationService->generateAndStoreRecommendation($validated);
 
-        return view('recommendation.result', [
-            'recommendation' => $result['report'],
-            'recommendationRecord' => $result['record'],
-        ]);
+        return redirect()
+            ->route('recommendation.show', $recommendation)
+            ->with('success', 'Recommendation generated successfully.');
     }
 
     public function history(RecommendationHistoryFilterRequest $request): View
@@ -47,8 +47,16 @@ class RecommendationController extends Controller
         );
     }
 
-    public function show(string $recommendation): View
+    public function show(Recommendation $recommendation): View
     {
-        return view('recommendation.show', $this->recommendationService->getRecommendationDetails((int) $recommendation));
+        abort_if(
+            $recommendation->user_id !== null && $recommendation->user_id !== auth()->id(),
+            403
+        );
+
+        return view(
+            'recommendation.show',
+            $this->recommendationService->getRecommendationDetails($recommendation)
+        );
     }
 }

@@ -1,19 +1,23 @@
 <?php
 
 use App\Models\Recommendation;
+use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 
 uses(RefreshDatabase::class);
 
 test('recommendation history page loads', function () {
-    $this->get(route('recommendation.history'))
+    $this->actingAs(User::factory()->create())->get(route('recommendation.history'))
         ->assertOk()
         ->assertSee('Recommendation History', false)
         ->assertSee('Decision Archive', false);
 });
 
 test('recommendation history filters by search', function () {
+    $user = User::factory()->create();
+
     Recommendation::query()->create([
+        'user_id' => $user->id,
         'project_name' => 'Unique Alpha Project',
         'project_type' => 'web application',
         'team_size' => 2,
@@ -34,6 +38,7 @@ test('recommendation history filters by search', function () {
     ]);
 
     Recommendation::query()->create([
+        'user_id' => $user->id,
         'project_name' => 'Other Beta',
         'project_type' => 'ai system',
         'team_size' => 1,
@@ -53,7 +58,7 @@ test('recommendation history filters by search', function () {
         'roadmap' => [],
     ]);
 
-    $this->get(route('recommendation.history', ['search' => 'Unique Alpha']))
+    $this->actingAs($user)->get(route('recommendation.history', ['search' => 'Unique Alpha']))
         ->assertOk()
         ->assertSee('Unique Alpha Project', false)
         ->assertDontSee('Other Beta', false);

@@ -35,4 +35,11 @@ return [
         ],
     ],
 
+    'ollama' => [
+        'api_key' => env('OLLAMA_API_KEY'),
+        'api_url' => env('OLLAMA_API_URL', 'http://localhost:11434/api/generate'),
+        'model' => env('OLLAMA_MODEL', 'llama3.1'),
+        'timeout' => (int) env('OLLAMA_TIMEOUT', 30),
+    ],
+
 ];

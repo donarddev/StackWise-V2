@@ -34,6 +34,10 @@
             </div>
         </div>
 
+        @if (session('success'))
+            <x-ui.alert type="success" :message="session('success')" />
+        @endif
+
         <div class="grid gap-6 xl:grid-cols-3">
             <div class="xl:col-span-1">
                 <x-recommendation.summary-card :summary="$summary" />
@@ -68,14 +72,22 @@
             </div>
         </div>
 
-        <x-feedback.form :recommendation-id="$recommendation->id" :success-message="session('feedback_success')" />
+        <div id="feedback">
+            <x-feedback.form :recommendation-id="$recommendation->id" :success-message="session('feedback_success')" />
+        </div>
 
         <div class="flex flex-wrap gap-3">
-            <a href="{{ route('recommendation.history') }}" class="rounded-full bg-emerald-400 px-6 py-3 text-sm font-semibold text-slate-950 transition hover:bg-emerald-300">
-                Back to History
-            </a>
             <a href="{{ route('recommendation.index') }}" class="rounded-full border border-white/15 px-6 py-3 text-sm font-semibold text-white transition hover:bg-white/10">
-                Generate New Recommendation
+                Generate Another
+            </a>
+            <a href="{{ route('dashboard') }}" class="rounded-full border border-white/15 px-6 py-3 text-sm font-semibold text-white transition hover:bg-white/10">
+                View Dashboard
+            </a>
+            <a href="{{ route('recommendation.history') }}" class="rounded-full border border-white/15 px-6 py-3 text-sm font-semibold text-white transition hover:bg-white/10">
+                View History
+            </a>
+            <a href="#feedback" class="rounded-full bg-emerald-400 px-6 py-3 text-sm font-semibold text-slate-950 transition hover:bg-emerald-300">
+                Submit Feedback
             </a>
         </div>
     </section>

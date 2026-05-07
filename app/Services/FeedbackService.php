@@ -15,8 +15,13 @@ class FeedbackService
             $recommendationId = null;
         }
 
-        if ($recommendationId !== null && ! Recommendation::query()->whereKey($recommendationId)->exists()) {
-            $recommendationId = null;
+        if ($recommendationId !== null) {
+            $recommendation = Recommendation::query()->find($recommendationId);
+            if (! $recommendation) {
+                $recommendationId = null;
+            } elseif ($recommendation->user_id !== null && $recommendation->user_id !== auth()->id()) {
+                $recommendationId = null;
+            }
         }
 
         return Feedback::create([

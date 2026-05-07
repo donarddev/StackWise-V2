@@ -3,19 +3,30 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class Recommendation extends Model
 {
     protected $fillable = [
+        'user_id',
         'project_name',
         'project_type',
+        'selected_features',
         'team_size',
         'complexity',
         'preferred_platform',
         'development_experience',
         'timeline',
         'project_goal',
+        'scalability_needs',
+        'security_requirements',
+        'performance_requirements',
+        'budget_constraints',
+        'maintenance_expectations',
+        'deployment_preference',
+        'requirements_stability',
+        'stakeholder_involvement',
         'recommended_language',
         'recommended_framework',
         'recommended_sdlc_model',
@@ -28,6 +39,8 @@ class Recommendation extends Model
     ];
 
     protected $casts = [
+        'user_id' => 'integer',
+        'selected_features' => 'array',
         'team_size' => 'integer',
         'confidence_score' => 'integer',
         'explanations' => 'array',
@@ -44,6 +57,11 @@ class Recommendation extends Model
     public function feedback(): HasMany
     {
         return $this->hasMany(Feedback::class);
+    }
+
+    public function user(): BelongsTo
+    {
+        return $this->belongsTo(User::class);
     }
 
     public function getGeneratedAtAttribute(): ?string

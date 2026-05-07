@@ -9,13 +9,14 @@
         $suggestedQuestions = $suggestedQuestions ?? [];
         $topicChips = $topicChips ?? [];
         $assistantCapabilities = $assistantCapabilities ?? [];
+        $aiEnabled = $aiEnabled ?? false;
     @endphp
 
     <section class="mx-auto max-w-7xl space-y-8">
         <x-chatbot.page-hero
             title="Ask the StackWise Assistant"
             description="Get quick guidance about programming languages, frameworks, SDLC models, and project stack recommendations."
-            note="This preview uses fast, rule-based answers tailored to StackWise AI. Optional on-device AI (such as Ollama) can plug into the same service layer later for richer conversations—your workflow here will stay familiar."
+            note="{{ $aiEnabled ? 'This assistant is powered by Ollama via API. If the model is offline, you will see an error message instead of a reply.' : 'AI replies are currently disabled. Configure OLLAMA_API_URL and OLLAMA_MODEL to enable Ollama-powered responses.' }}"
         />
 
         <div class="grid gap-6 lg:grid-cols-[1.15fr_0.85fr]">
@@ -23,13 +24,14 @@
                 <div class="flex flex-wrap items-start justify-between gap-4 border-b border-white/10 pb-4">
                     <div>
                         <h2 class="text-lg font-semibold text-white">Conversation</h2>
-                        <p class="mt-1 text-sm text-slate-400">Rule-based StackWise Assistant preview</p>
+                        <p class="mt-1 text-sm text-slate-400">{{ $aiEnabled ? 'Ollama-powered StackWise Assistant' : 'Ollama not configured (AI disabled)' }}</p>
                     </div>
-                    <x-ui.badge tone="emerald">Session preview</x-ui.badge>
+                    <x-ui.badge :tone="$aiEnabled ? 'emerald' : 'amber'">{{ $aiEnabled ? 'AI enabled' : 'AI disabled' }}</x-ui.badge>
                 </div>
 
                 <div
-                    class="mt-5 flex max-h-[min(28rem,70vh)] min-h-[12rem] flex-col gap-4 overflow-y-auto overflow-x-hidden rounded-2xl border border-white/10 bg-slate-950/50 p-4"
+                    id="chat-messages"
+                    class="mt-5 flex max-h-[min(28rem,70vh)] min-h-[12rem] flex-col gap-4 overflow-y-auto overflow-x-hidden rounded-2xl border border-white/10 bg-slate-950/50 p-4 pr-3 scroll-smooth"
                     aria-live="polite"
                 >
                     <x-chatbot.chat-bubble role="assistant" :content="$assistantGreeting" />
@@ -37,6 +39,8 @@
                     @foreach ($conversation as $line)
                         <x-chatbot.chat-bubble :role="$line['role']" :content="$line['content']" />
                     @endforeach
+
+                    <div id="chat-bottom" aria-hidden="true"></div>
                 </div>
 
                 <form id="chat-form" method="POST" action="{{ route('chatbot.send') }}" class="mt-6 space-y-4">
@@ -108,15 +112,33 @@
         (function () {
             const form = document.getElementById('chat-form');
             const input = document.getElementById('chat-message');
+            const messages = document.getElementById('chat-messages');
+            const scrollToBottom = function () {
+                if (!messages) {
+                    return;
+                }
+
+                requestAnimationFrame(function () {
+                    messages.scrollTop = messages.scrollHeight;
+                });
+            };
+
+            document.addEventListener('DOMContentLoaded', function () {
+                scrollToBottom();
+                setTimeout(scrollToBottom, 50);
+            });
+
             if (!form || !input) {
                 return;
             }
+
             window.stackwiseFillChat = function (q) {
                 input.value = q;
                 input.focus();
             };
             window.stackwiseSendChat = function (q) {
                 input.value = q;
+                scrollToBottom();
                 if (typeof form.requestSubmit === 'function') {
                     form.requestSubmit();
                 } else {

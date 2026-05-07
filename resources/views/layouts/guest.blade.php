@@ -5,19 +5,52 @@
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <meta name="csrf-token" content="{{ csrf_token() }}">
 
-        <title>{{ config('app.name', 'StackWise AI') }}</title>
+        <title>{{ config('app.name', 'Laravel') }}</title>
+
+        <link rel="icon" type="image/png" href="{{ asset('images/StackWise_Logo.png') }}">
+
+        <link rel="preconnect" href="https://fonts.bunny.net">
+        <link href="https://fonts.bunny.net/css?family=figtree:400,500,600&display=swap" rel="stylesheet" />
 
         @vite(['resources/css/app.css', 'resources/js/app.js'])
     </head>
-    <body class="min-h-screen bg-slate-950 text-slate-100 antialiased">
-        <div class="relative isolate min-h-screen overflow-hidden">
-            <div class="absolute inset-0 -z-10 bg-[radial-gradient(circle_at_top_left,_rgba(34,197,94,0.18),_transparent_32%),radial-gradient(circle_at_top_right,_rgba(14,165,233,0.15),_transparent_28%),linear-gradient(180deg,_#020617_0%,_#0f172a_100%)]"></div>
-            <div class="absolute left-1/2 top-0 -z-10 h-72 w-[42rem] -translate-x-1/2 rounded-full bg-emerald-400/10 blur-3xl"></div>
+    <body class="font-sans antialiased text-slate-100">
+        <div class="relative isolate min-h-screen overflow-x-hidden">
+            <div
+                class="pointer-events-none fixed inset-0 -z-20 bg-[#020617]"
+                aria-hidden="true"
+            ></div>
+            <div
+                class="pointer-events-none fixed inset-0 -z-10 bg-[radial-gradient(ellipse_80%_50%_at_50%_-20%,rgba(16,185,129,0.18),transparent),radial-gradient(ellipse_60%_40%_at_100%_0%,rgba(45,212,191,0.12),transparent),radial-gradient(ellipse_50%_35%_at_0%_100%,rgba(16,185,129,0.08),transparent)]"
+                aria-hidden="true"
+            ></div>
+            <div
+                class="pointer-events-none fixed inset-0 -z-10 opacity-[0.35] [background-image:linear-gradient(rgba(148,163,184,0.07)_1px,transparent_1px),linear-gradient(90deg,rgba(148,163,184,0.07)_1px,transparent_1px)] [background-size:48px_48px]"
+                aria-hidden="true"
+            ></div>
 
-            <div class="flex items-center justify-center min-h-screen px-4 py-12">
-                <div class="w-full max-w-md bg-white/5 backdrop-blur-md border border-white/5 rounded-2xl p-8 shadow-2xl">
+            <div class="relative flex min-h-screen flex-col items-center justify-center px-4 py-10 sm:px-6 sm:py-12">
+                <div
+                    class="w-full max-w-md rounded-3xl border border-white/10 bg-slate-900/75 p-6 shadow-2xl shadow-slate-950/60 ring-1 ring-white/5 backdrop-blur-xl sm:p-8"
+                >
+                    <a
+                        href="{{ route('home') }}"
+                        class="mx-auto mb-8 flex w-fit justify-center rounded-2xl focus:outline-none focus:ring-2 focus:ring-emerald-400/50 focus:ring-offset-2 focus:ring-offset-slate-900"
+                    >
+                        <x-application-logo class="h-24 w-24 drop-shadow-[0_0_28px_rgba(16,185,129,0.22)]" />
+                    </a>
+
                     {{ $slot }}
                 </div>
+
+                <p class="mt-8 max-w-md text-center text-xs text-slate-500">
+                    <a
+                        href="{{ route('home') }}"
+                        class="text-slate-400 underline-offset-4 transition hover:text-emerald-300 hover:underline"
+                    >
+                        {{ __('Back to StackWise home') }}
+                    </a>
+                </p>
             </div>
         </div>
     </body>
