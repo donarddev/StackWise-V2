@@ -41,7 +41,7 @@ RUN composer install --no-dev --optimize-autoloader --no-interaction --no-progre
 COPY . .
 
 # Run Laravel's package discovery now that artisan exists
-RUN composer dump-autoload --no-dev --optimize --no-interaction --no-progress
+RUN composer dump-autoload --no-dev --optimize
 
 # Permissions
 RUN chmod -R ug+rwx storage bootstrap/cache
