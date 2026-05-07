@@ -25,7 +25,7 @@ class HomeService
     private function heroSection(): array
     {
         return [
-            'badge' => 'Student Decision Support System',
+            'badge' => 'Decision Support System',
             'headline' => 'Choose the right language, framework, and SDLC model for your project.',
             'description' => 'StackWise AI analyzes project type, complexity, team size, preferred platform, development experience, timeline, and project goal to generate explainable recommendations for student projects and class presentations.',
             'supportingText' => 'Rule-based recommendation engine today, AI-assisted scoring planned next.',
