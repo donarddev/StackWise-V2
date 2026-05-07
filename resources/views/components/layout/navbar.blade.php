@@ -49,7 +49,7 @@
                 />
                 <div>
                     <p class="text-sm font-semibold tracking-wide text-white">StackWise AI</p>
-                    <p class="text-xs text-slate-400">Decision support for student projects</p>
+                    <p class="text-xs text-slate-400">Tech stack decision support system</p>
                 </div>
             </a>
 
