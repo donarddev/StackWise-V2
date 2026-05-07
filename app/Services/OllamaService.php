@@ -88,7 +88,7 @@ class OllamaService
     private function buildPrompt(string $message, array $conversation): string
     {
         $lines = [
-            'You are the StackWise Assistant. Be concise, structured, and helpful for students choosing a tech stack and SDLC.',
+            'You are the StackWise Assistant. Be concise, structured, and helpful for students and beginner developers choosing a tech stack and SDLC.',
             '',
         ];
 

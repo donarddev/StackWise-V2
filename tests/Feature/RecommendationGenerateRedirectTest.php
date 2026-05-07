@@ -18,7 +18,7 @@ test('generating a recommendation redirects to the newly created recommendation 
         'preferred_platform' => 'web',
         'development_experience' => 'beginner',
         'timeline' => 'short',
-        'project_goal' => 'Build a simple enrollment portal for students.',
+        'project_goal' => 'Build a simple enrollment portal for students and beginner developers.',
         'scalability_needs' => 'low',
         'security_requirements' => 'standard',
         'performance_requirements' => 'medium',

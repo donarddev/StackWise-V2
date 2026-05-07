@@ -55,7 +55,7 @@ class AboutService
         return [
             'problem' => [
                 'title' => 'The Problem',
-                'content' => 'Students often struggle to choose the right programming language, framework, and development process for their software projects. This can lead to mismatched technologies, unclear planning, and difficulty defending project decisions.',
+                'content' => 'Students and beginner developers often struggle to choose the right programming language, framework, and development process for their software projects. This can lead to mismatched technologies, unclear planning, and difficulty defending project decisions.',
             ],
             'solution' => [
                 'title' => 'The StackWise Solution',
@@ -194,7 +194,7 @@ class AboutService
         return [
             'eyebrow' => 'Output',
             'title' => 'What the recommendation report includes',
-            'description' => 'The generated report is structured to help students explain the “why” behind each decision.',
+            'description' => 'The generated report is structured to help students and beginner developers explain the “why” behind each decision.',
             'items' => [
                 [
                     'title' => 'Recommended language',
