@@ -1,3 +1,15 @@
+FROM node:20-alpine AS frontend
+
+WORKDIR /app
+
+COPY package.json package-lock.json ./
+RUN npm ci
+
+COPY resources ./resources
+COPY public ./public
+COPY vite.config.* tailwind.config.* postcss.config.* ./
+RUN npm run build
+
 FROM php:8.3-cli
 
 WORKDIR /var/www
@@ -39,6 +51,9 @@ RUN composer install --no-dev --optimize-autoloader --no-interaction --no-progre
 
 # Copy rest of project
 COPY . .
+
+# Copy built frontend assets (Vite manifest)
+COPY --from=frontend /app/public/build /var/www/public/build
 
 # Run Laravel's package discovery now that artisan exists
 RUN composer dump-autoload --no-dev --optimize
