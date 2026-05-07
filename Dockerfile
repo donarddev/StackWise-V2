@@ -35,10 +35,13 @@ COPY --from=composer:2 /usr/bin/composer /usr/bin/composer
 COPY composer.json composer.lock ./
 
 # Install dependencies FIRST (better caching + stability)
-RUN composer install --no-dev --optimize-autoloader --no-interaction --no-progress
+RUN composer install --no-dev --optimize-autoloader --no-interaction --no-progress --no-scripts
 
 # Copy rest of project
 COPY . .
+
+# Run Laravel's package discovery now that artisan exists
+RUN composer dump-autoload --no-dev --optimize --no-interaction --no-progress
 
 # Permissions
 RUN chmod -R ug+rwx storage bootstrap/cache
