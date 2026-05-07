@@ -8,6 +8,7 @@ uses(RefreshDatabase::class);
 
 test('generating a recommendation redirects to the newly created recommendation detail page', function () {
     $user = User::factory()->create();
+    $this->withoutMiddleware(\Illuminate\Foundation\Http\Middleware\PreventRequestForgery::class);
 
     $payload = [
         'project_name' => 'Enrollment Portal',
