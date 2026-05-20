@@ -9,6 +9,9 @@
     </header>
 
     <x-auth-session-status class="mb-4" variant="guest" :status="session('status')" />
+    <x-input-error class="mb-4" variant="guest" :messages="$errors->get('google')" />
+
+    <x-auth-social-login class="mb-5" />
 
     <form method="POST" action="{{ route('login') }}" class="space-y-5">
         @csrf

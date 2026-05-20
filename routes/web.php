@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\AboutController;
+use App\Http\Controllers\Auth\GoogleAuthController;
 use App\Http\Controllers\ChatbotController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\DocumentationController;
@@ -19,6 +20,11 @@ Route::post('/chatbot/send', [ChatbotController::class, 'send'])->name('chatbot.
 Route::post('/chatbot/clear', [ChatbotController::class, 'clear'])->name('chatbot.clear');
 
 Route::get('/about', [AboutController::class, 'index'])->name('about');
+
+Route::middleware('guest')->group(function () {
+    Route::get('/auth/google/redirect', [GoogleAuthController::class, 'redirect'])->name('google.redirect');
+    Route::get('/auth/google/callback', [GoogleAuthController::class, 'callback'])->name('google.callback');
+});
 
 Route::middleware('auth')->group(function () {
     Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');

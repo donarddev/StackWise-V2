@@ -8,6 +8,8 @@
         </p>
     </header>
 
+    <x-auth-social-login class="mb-5" />
+
     <form method="POST" action="{{ route('register') }}" class="space-y-5">
         @csrf
 
