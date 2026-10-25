@@ -38,6 +38,10 @@
             <x-ui.alert type="success" :message="session('success')" />
         @endif
 
+        @if (session('warning'))
+            <x-ui.alert type="warning" :message="session('warning')" />
+        @endif
+
         <div class="grid gap-6 xl:grid-cols-3">
             <div class="xl:col-span-1">
                 <x-recommendation.summary-card :summary="$summary" />
@@ -65,6 +69,13 @@
 
             <div class="xl:col-span-3">
                 <x-recommendation.roadmap-section :roadmap="$report['project_roadmap']" />
+            </div>
+
+            <div class="xl:col-span-3">
+                <x-research-support.section
+                    :recommendation="$recommendation"
+                    :research-support-view-data="$researchSupportViewData"
+                />
             </div>
 
             <div class="xl:col-span-3">

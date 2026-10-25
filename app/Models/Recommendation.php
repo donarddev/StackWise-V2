@@ -5,6 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Relations\HasOne;
 
 class Recommendation extends Model
 {
@@ -62,6 +63,11 @@ class Recommendation extends Model
     public function user(): BelongsTo
     {
         return $this->belongsTo(User::class);
+    }
+
+    public function researchSupport(): HasOne
+    {
+        return $this->hasOne(ResearchSupport::class);
     }
 
     public function getGeneratedAtAttribute(): ?string

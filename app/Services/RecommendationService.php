@@ -324,12 +324,14 @@ class RecommendationService
 
     public function getRecommendationDetails(Recommendation $recommendation): array
     {
-        $recommendation->loadMissing('feedback');
+        $recommendation->loadMissing(['feedback', 'researchSupport']);
 
         return [
             'recommendation' => $recommendation,
             'recommendationRecord' => $recommendation,
             'recommendationReport' => $this->buildRecommendationReportFromModel($recommendation),
+            'researchSupportViewData' => app(ResearchSupportViewDataService::class)
+                ->forDisplay($recommendation->researchSupport, $recommendation),
         ];
     }
 

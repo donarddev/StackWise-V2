@@ -9,6 +9,7 @@ use App\Http\Controllers\FeedbackController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\RecommendationController;
+use App\Http\Controllers\ResearchSupportController;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', [HomeController::class, 'index'])->name('home');
@@ -36,6 +37,10 @@ Route::middleware('auth')->group(function () {
     Route::get('/recommendation/{recommendation}', [RecommendationController::class, 'show'])
         ->whereNumber('recommendation')
         ->name('recommendation.show');
+
+    Route::post('/recommendations/{recommendation}/research-support', [ResearchSupportController::class, 'store'])
+        ->whereNumber('recommendation')
+        ->name('recommendations.research-support.store');
 
     Route::post('/feedback', [FeedbackController::class, 'store'])->name('feedback.store');
 
